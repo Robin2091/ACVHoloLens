@@ -37,6 +37,7 @@ Then follow the instructions in this link to deploy the application to the Holol
 
 Deploying via USB is recommended as its faster than deploying over remote connection.
 
+On the server side, cd into the project directory and 'pip install -r requirements.txt'
 
 
 
