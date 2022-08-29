@@ -11,12 +11,11 @@ The project is split up into two main parts:
  
 Data is collected on the HoloLens 2 and then streamed to the server using TCP/IP sockets. 
 
-## Installation and Setup
+## Requirements
 
 A Windows 10 machine is required to develop and deploy applications for the HoloLens 2. Any OS can be used for the server side Python app.
 
 * Python >= 3.7.6
-  * ffmpeg==1.4
   * ffmpeg_python==0.2.0
   * numpy==1.21.6
   * opencv==4.5.5.64
@@ -24,9 +23,29 @@ A Windows 10 machine is required to develop and deploy applications for the Holo
   * vosk==0.3.42
  
 * For HoloLens 2 app development
-  * Unity 2020.3.33f1 LTS
+  * Unity Hub and Unity 2020.3.33f1 LTS
   * Visual Studio Code 2019
   * Microsoft Mixed Reality Toolkit 2.8.2
   * Mixed Reality OpenXR Plugin 1.4.4
+
+## Installation
+Clone this repository to your machine and open the Unity project from Unity Hub. 
+
+Follow the instructions found in this link to build the project and generate a Visual Studio Solution: https://docs.microsoft.com/en-us/windows/mixed-reality/develop/unity/build-and-deploy-to-hololens
+
+Then follow the instructions in this link to deploy the application to the Hololens 2: https://docs.microsoft.com/en-us/windows/mixed-reality/develop/advanced-concepts/using-visual-studio?tabs=hl2
+
+Deploying via USB is recommended as its faster than deploying over remote connection.
+
+
+
+
+
+## Additional Resources
+
+Create a Unity Project and add the Microsoft MRTK and OpenXR Plugin to the project: https://docs.microsoft.com/en-us/learn/modules/mixed-reality-toolkit-project-unity/1-introduction
+
+Enable eye-tracking in project (if you are creating a new project from scratch): https://docs.microsoft.com/en-us/windows/mixed-reality/mrtk-unity/mrtk2/features/input/eye-tracking/eye-tracking-basic-setup?view=mrtkunity-2022-05. Make sure to check "Enable Eye Gaze" in the Pointers section of Input settings. 
+
 
 
