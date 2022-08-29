@@ -9,4 +9,6 @@ The project is split up into two main parts:
 * An app for the Hololens 2 which is built using Unity with the help of several different APIs and toolkits.
 * Server side app developed in Python which can be executed on any machine.
  
-## Setup
+Data is collected on the HoloLens 2 and then streamed to the server using TCP/IP sockets. 
+
+## Installation and Setup
