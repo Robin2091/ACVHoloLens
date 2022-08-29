@@ -12,3 +12,21 @@ The project is split up into two main parts:
 Data is collected on the HoloLens 2 and then streamed to the server using TCP/IP sockets. 
 
 ## Installation and Setup
+
+A Windows 10 machine is required to develop and deploy applications for the HoloLens 2. Any OS can be used for the server side Python app.
+
+* Python >= 3.7.6
+  * ffmpeg==1.4
+  * ffmpeg_python==0.2.0
+  * numpy==1.21.6
+  * opencv==4.5.5.64
+  * PyAudio==0.2.11
+  * vosk==0.3.42
+ 
+* For HoloLens 2 app development
+  * Unity 2020.3.33f1 LTS
+  * Visual Studio Code 2019
+  * Microsoft Mixed Reality Toolkit 2.8.2
+  * Mixed Reality OpenXR Plugin 1.4.4
+
+
