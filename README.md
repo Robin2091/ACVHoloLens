@@ -48,6 +48,10 @@ If both the machine the server is running on and the HoloLens are connected to W
 
 Now, go onto the HoloLens and open the ACVHololensUnity app. You should see a welcome screen with a start button. Once you press the start button, a dialog box will appear asking you to input the IP Address of the server. If the default IP address is different than the one assigned to your server then select yes to change it. Note that the app will not allow you to continue until you have entered a valid IP address. After an IP address has been entered, a countdown will begin before you can start collecting data in your environment. You should see a message appearing that the client sockets have connected to the server sockets and you can being collecting data. 
 
+If you lift your hand with your plams facing towards you, a menu screen will pop-up which showing several buttons: Exit, Pause (pause data collection and streaming to the server), Resume (resume collecting and streaming data), Toggle (turns on/off the eye gaze cursor) and adjust gaze angle*.
+
+
+
 ## Additional Resources
 
 Create a Unity Project and add the Microsoft MRTK and OpenXR Plugin to the project: https://docs.microsoft.com/en-us/learn/modules/mixed-reality-toolkit-project-unity/1-introduction
