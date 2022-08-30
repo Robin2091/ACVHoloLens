@@ -69,7 +69,9 @@ This command will:
 * create a variable frame rate video from the frames
 * sync the audio and video and generate an mkv file
 
-Now you can run the following command: 'python GenerateDataset.py --data_folder {path_to_run_folder}' to create a weakly annotated dataset in COCO format from the data. The Vosk speech to text API is used to parse
+Now you can create a new text file named 'categories.txt' where each row contains the name of an object you annotated during the data collection run. You should also create a json file with the list of categories in the COCO dataset format named 'categories.json'. 
+
+Run the following command: 'python GenerateDataset.py --data_folder {path_to_run_folder}' to create a weakly annotated dataset in COCO format from the data. The Vosk speech to text API is used to parse through the audio data to look for the categories listed in the text file. For each detected instance of a cetgory, a video frame that includes the category object and an eye gaze point that is located on the object are selected. A 'dataset.json' file is created that contains all of the annotations.
 
 
 ## Additional Resources
