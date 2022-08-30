@@ -44,7 +44,7 @@ On the server side, cd into the project directory and 'pip install -r requiremen
 Firstly, cd into the server side project directory if you have not already. Create a new folder where the data collected from the HoloLens will be stored. 
 Run the following command 'python Server.py --data_folder {YOUR_FOLDER}'. You will see that the server sockets are listening on some IP address. 
 
-If both the machine the server is running on and the HoloLens are connected to Wifi (and the HoloLens wont lose Wifi signal
+If both the machine the server is running on and the HoloLens are connected to Wifi (and the user wont be going into areas without Wifi signal) then no USB-C connection is required between the HoloLens and the machine. Otherwise, a portable machine would have to be used e.g. Raspberry Pi or a laptop which would be connected to the HoloLens via USB-C. 
 
 Now, go onto the HoloLens and open the ACVHololensUnity app. You should see a welcome screen with a start button. Once you press the start button, a dialog box will appear asking you to input the IP Address of the server. If the default IP address is different than the one assigned to your server then select yes to change it. Note that the app will not allow you to continue until you have entered a valid IP address. After an IP address has been entered, a countdown will begin before you can start collecting data in your environment. You should see a message appearing that the client sockets have connected to the server sockets and you can being collecting data. 
 
