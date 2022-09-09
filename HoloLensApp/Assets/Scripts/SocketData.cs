@@ -35,6 +35,7 @@ public static class SocketData
     public static string AudioPort = "12346";
     public static string GazePort = "12347";
     public static int HeaderSize = 10;
-    public static int BufferSize = 32768;
+    public static int BufferSize = 65536;
+    public static int TimeStampLength = 25;
 
 }

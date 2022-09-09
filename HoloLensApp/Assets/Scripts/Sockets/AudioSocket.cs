@@ -35,10 +35,11 @@ public class AudioSocket : MonoBehaviour
     public void startRecording()
     {
         audioClip = Microphone.Start(null, true, clipLength, audioFrequency);
-        byte[] frameTimeStamp = Encoding.UTF8.GetBytes(DateTime.UtcNow.ToString("MM/dd/yyyy HH:mm:ss.fff").PadLeft(25));
+        string startRecordingTimeStamp = DateTime.UtcNow.ToString("MM/dd/yyyy HH:mm:ss.fff");
+        byte[] frameTimeStamp = Encoding.UTF8.GetBytes(startRecordingTimeStamp.PadLeft(SocketData.TimeStampLength));
+        socket.SendData(Encoding.UTF8.GetBytes(SocketData.TimeStampLength.ToString()));
         socket.SendData(frameTimeStamp);
     }
-
 
     public void sendAudioData()
     {
@@ -55,6 +56,9 @@ public class AudioSocket : MonoBehaviour
                     audioClip.GetData(samples, lastSample);
                     byte[] audioData = new byte[samples.Length * sizeof(float)];
                     Buffer.BlockCopy(samples, 0, audioData, 0, audioData.Length);
+                    string dataLength = audioData.Length.ToString().PadLeft(SocketData.HeaderSize);
+                    byte[] dataLengthBytes = Encoding.UTF8.GetBytes(dataLength);
+                    System.Diagnostics.Debug.WriteLine(dataLength);
                     socket.SendData(audioData);
                 }
                 lastSample = pos;
@@ -65,11 +69,24 @@ public class AudioSocket : MonoBehaviour
     public void StopSendingData()
     {
         collectAndSendData = false;
+        Microphone.End(null);
+#if !UNITY_EDITOR
+        string pauseMessage = "00000";
+        string dataLength = pauseMessage.Length.ToString().PadLeft(SocketData.HeaderSize);
+        byte[] dataLengthBytes = Encoding.UTF8.GetBytes(dataLength);
+        byte[] pauseMessageBytes = Encoding.UTF8.GetBytes(pauseMessage);
+        System.Diagnostics.Debug.WriteLine("AUDIO DATA PAUSED");
+        socket.SendData(dataLengthBytes);
+        socket.SendData(pauseMessageBytes);
+#endif 
     }
 
     public void ResumeSendingData()
     {
         collectAndSendData = true;
+#if !UNITY_EDITOR
+        startRecording();
+#endif
     }
 
     public bool IsSendingData()

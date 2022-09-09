@@ -11,12 +11,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/HoloLens2.unity
     guid: 06b13b9751a9c064faec393072652d23
+  - enabled: 1
+    path: Assets/Scenes/Calibration.unity
+    guid: 10856c544a551a44780de512da0d77df
   - enabled: 0
     path: Assets/Scenes/Hololens.unity
     guid: 71a608fce944e7d47898c66595765d7a
-  - enabled: 0
-    path: Assets/Scenes/Calibration.unity
-    guid: 10856c544a551a44780de512da0d77df
   m_configObjects:
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: fb759322d0459c946afa7416bc1cda3d, type: 2}
     com.unity.xr.openxr.settings4: {fileID: 11400000, guid: 4f396c9b804cc2549abb058cccc18f58, type: 2}

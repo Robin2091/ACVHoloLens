@@ -591,18 +591,18 @@ PrefabInstance:
     - target: {fileID: 8357962763443036376, guid: 8e490a62f12a9764a84b31db73256d39, type: 3}
       propertyPath: ButtonPressed.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
-      objectReference: {fileID: 2054439717}
+      objectReference: {fileID: 2054439721}
     - target: {fileID: 8357962763443036376, guid: 8e490a62f12a9764a84b31db73256d39, type: 3}
       propertyPath: ButtonPressed.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8357962763443036376, guid: 8e490a62f12a9764a84b31db73256d39, type: 3}
       propertyPath: ButtonPressed.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
-      value: ToogleGazeCursor
+      value: ToggleGazeCursor
       objectReference: {fileID: 0}
     - target: {fileID: 8357962763443036376, guid: 8e490a62f12a9764a84b31db73256d39, type: 3}
       propertyPath: ButtonPressed.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
-      value: EyeGazeCursor, Assembly-CSharp
+      value: EyeGazeCursor2, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8357962763443036376, guid: 8e490a62f12a9764a84b31db73256d39, type: 3}
       propertyPath: ButtonPressed.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgument
@@ -1146,6 +1146,22 @@ PrefabInstance:
       propertyPath: useSliderStepDivisions
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4652298831309034520, guid: f6c496df49722554d9fe983041a8e151, type: 3}
+      propertyPath: OnValueUpdated.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4652298831309034520, guid: f6c496df49722554d9fe983041a8e151, type: 3}
+      propertyPath: OnValueUpdated.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 2015094547}
+    - target: {fileID: 4652298831309034520, guid: f6c496df49722554d9fe983041a8e151, type: 3}
+      propertyPath: OnValueUpdated.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: setValue
+      objectReference: {fileID: 0}
+    - target: {fileID: 4652298831309034520, guid: f6c496df49722554d9fe983041a8e151, type: 3}
+      propertyPath: OnValueUpdated.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: Slider, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 4652298831309034523, guid: f6c496df49722554d9fe983041a8e151, type: 3}
       propertyPath: m_RootOrder
       value: 10
@@ -1301,6 +1317,10 @@ PrefabInstance:
       propertyPath: slider
       value: 
       objectReference: {fileID: 1851022548}
+    - target: {fileID: 6670402648322496094, guid: 21864a476ee0ae3449dd6b64f0e4fa29, type: 3}
+      propertyPath: gazeSocket
+      value: 
+      objectReference: {fileID: 20986770}
     - target: {fileID: 6670402648322496095, guid: 21864a476ee0ae3449dd6b64f0e4fa29, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1465,16 +1485,48 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7690597554764264372, guid: 6901dcc0d786f904a841ccaa42dc284b, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 6901dcc0d786f904a841ccaa42dc284b, type: 3}
---- !u!114 &2054439717 stripped
+--- !u!1 &2054439717 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7690597554764264423, guid: 6901dcc0d786f904a841ccaa42dc284b, type: 3}
+  m_PrefabInstance: {fileID: 2054439716}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2054439718 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7690597554764264372, guid: 6901dcc0d786f904a841ccaa42dc284b, type: 3}
+  m_CorrespondingSourceObject: {fileID: 7690597554764264371, guid: 6901dcc0d786f904a841ccaa42dc284b, type: 3}
   m_PrefabInstance: {fileID: 2054439716}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4d68d7d64f866c4693ee447d37f31c3, type: 3}
+  m_Script: {fileID: 11500000, guid: 81c169a39f8e430d869bbc5d938b0e5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &2054439719 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7690597554764264406, guid: 6901dcc0d786f904a841ccaa42dc284b, type: 3}
+  m_PrefabInstance: {fileID: 2054439716}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2054439720 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7690597554764264416, guid: 6901dcc0d786f904a841ccaa42dc284b, type: 3}
+  m_PrefabInstance: {fileID: 2054439716}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2054439721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2054439717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05320135cae988f4985d0c2624532b5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gazeSocket: {fileID: 20986770}
+  visualsRoot: {fileID: 2054439720}
+  tetherEndPoint: {fileID: 2054439719}
+  tetherLine: {fileID: 2054439718}

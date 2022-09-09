@@ -22,7 +22,6 @@ public class EyeGazeCursor : MonoBehaviour
     //private BaseMixedRealityLineDataProvider tetherLine;
     //private SimpleLineDataProvider dataProvider;
     private bool showGazeCursor = false;
-
     
     public Transform TetherEndPoint => tetherEndPoint;
 

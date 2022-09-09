@@ -76,7 +76,9 @@ public class KeyBoard : MonoBehaviour
 
             if (IsValidIPAddress(keyboard.Text))
             {
+                System.Diagnostics.Debug.WriteLine(keyboard.Text);
                 SocketData.Address = keyboard.Text;
+                System.Diagnostics.Debug.WriteLine(SocketData.Address);
                 TextBoxStarting.SetActive(true);
                 TextMeshPro startingText = TextBoxStarting.transform.Find("Text").GetComponent<TextMeshPro>();
                 isValidAddressEntered = true;
@@ -148,7 +150,7 @@ public class KeyBoard : MonoBehaviour
             seconds--;
         }
         TextBoxStarting.SetActive(false);
-        SceneManager.LoadScene("Hololens");
+        SceneManager.LoadScene("HoloLens2");
     }
 
     public IEnumerator WaitForDialogToBeAccepted()

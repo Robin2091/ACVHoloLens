@@ -24,7 +24,7 @@ MonoBehaviour:
   - {r: 0, g: 1, b: 0.2163105, a: 1}
   - {r: 0, g: 0.3028021, b: 1, a: 1}
   - {r: 0.44855833, g: 0, b: 1, a: 1}
-  gazeCursorPrefab: {fileID: 3269771183375051793, guid: 02a53bcd4c7791a44911135a97a5f869, type: 3}
+  gazeCursorPrefab: {fileID: 1507865967819406, guid: c2fde7a8938065b459cff79b8ed89393, type: 3}
   gazeProviderType:
     reference: Microsoft.MixedReality.Toolkit.Input.GazeProvider, Microsoft.MixedReality.Toolkit.Services.InputSystem
   useHeadGazeOverride: 0

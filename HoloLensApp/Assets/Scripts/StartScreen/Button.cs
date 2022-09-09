@@ -14,6 +14,11 @@ public class Button : MonoBehaviour
     public GameObject StartButton;
 
     [SerializeField]
+    public GameObject CalibrateButton;
+
+    public GameObject WelcomeSign;
+
+    [SerializeField]
     [Tooltip("Assign DialogSmall_192x96.prefab")]
     private GameObject dialogPrefabSmall;
     public GameObject DialogPrefabSmall
@@ -29,7 +34,17 @@ public class Button : MonoBehaviour
     public void Button_Pressed()
     {
         StartButton.SetActive(false);
+        WelcomeSign.SetActive(false);
+        CalibrateButton.SetActive(false);
         OpenChoiceDialogSmall();
+    }
+
+    public void Calibrate_Button_Pressed()
+    {
+        CalibrateButton.SetActive(false);
+        WelcomeSign.SetActive(false);
+        StartButton.SetActive(false);
+        SceneManager.LoadScene("Calibration");
     }
 
     public void OpenChoiceDialogSmall()

@@ -134,7 +134,7 @@ public class GazeSocket : MonoBehaviour
                 if (eyeGaze != null)
                 {
                     var eyeGazeDirection = eyeGaze.Value.Direction;
-
+                    System.Diagnostics.Debug.WriteLine(gazeVectorAngleAdjustment);
                     var adjustedEyeGazeDirectionRay = changeVectorAngle(eyeGazeDirection, gazeVectorAngleAdjustment);
 
                     if (sendToQueue)

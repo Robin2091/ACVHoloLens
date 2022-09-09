@@ -32,6 +32,7 @@ public class VideoSocket : MonoBehaviour
     async void Start()
     {
         videoFrameQueue = new ConcurrentQueue<MediaFrameReference>();
+        System.Diagnostics.Debug.WriteLine(SocketData.Address);
         socket = new ClientSocket(SocketData.Address, SocketData.VideoPort, SocketData.BufferSize);
         await socket.ConnectToServer();
         await initializeRecording();
@@ -120,7 +121,7 @@ public class VideoSocket : MonoBehaviour
             {
                 byte[] encodedVideoFrame = EncodedBytes(bitmapFrame, BitmapEncoder.JpegEncoderId).Result;
                 socket.SendData(frameTimeStamp);
-                sendVideoDataList(encodedVideoFrame);
+                SendVideoData(encodedVideoFrame);
             }
         }
      }
@@ -146,7 +147,7 @@ public class VideoSocket : MonoBehaviour
         return array;
      }
 
-     private void sendVideoDataList(byte[] encodedFrameArray)
+     private void SendVideoData(byte[] encodedFrameArray)
      {
         List<byte> encodedFrame = new List<byte>(encodedFrameArray);
         string dataLength = encodedFrame.Count.ToString().PadLeft(SocketData.HeaderSize);
@@ -170,6 +171,43 @@ public class VideoSocket : MonoBehaviour
             }
             begin += SocketData.BufferSize;
         }
+     }
+
+     private async Task SendVideoDataAsync(byte[] encodedFrameArray)
+     {
+        List<byte> encodedFrame = new List<byte>(encodedFrameArray);
+        string dataLength = encodedFrame.Count.ToString().PadLeft(SocketData.HeaderSize);
+        byte[] dataLengthBytes = Encoding.UTF8.GetBytes(dataLength);
+        await socket.SendDataAsync(dataLengthBytes);
+
+        int begin = 0;
+        int messageLength = encodedFrame.Count;
+        var packetsToSend = new List<byte[]>();
+
+        while (begin <= messageLength)
+        {
+            if (messageLength - begin < SocketData.BufferSize)
+            {
+                var packet = encodedFrame.GetRange(begin, messageLength - begin).ToArray();
+                //socket.SendData(packet);
+                packetsToSend.Add(packet);
+            }
+            else
+            {
+                var packet = encodedFrame.GetRange(begin, SocketData.BufferSize).ToArray();   
+                //socket.SendData(packet);
+                packetsToSend.Add(packet);
+            }
+            begin += SocketData.BufferSize;
+        }
+        var pendingTasks = new System.Threading.Tasks.Task[packetsToSend.Count];
+        for (int index = 0; index < packetsToSend.Count; ++index)
+        {
+            // track all pending writes as tasks, but don't wait on one before beginning the next.
+            pendingTasks[index] = socket.Socket.OutputStream.WriteAsync(packetsToSend[index].AsBuffer()).AsTask();
+            // Don't modify any buffer's contents until the pending writes are complete.
+        }
+        await socket.Socket.OutputStream.FlushAsync();
      }
 
      public ConcurrentQueue<MediaFrameReference> getQueue()

@@ -12,10 +12,9 @@ public class Slider : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        slider = GameObject.Find("PinchSliderColorRed");
+        //slider = GameObject.Find("PinchSliderColorRed");
         slider.SetActive(false);
         sliderScript = slider.GetComponent<PinchSlider>();
-        gazeSocket = GameObject.Find("GazeSender").GetComponent<GazeSocket>();
         sliderScript.SliderValue = gazeSocket.gazeVectorAngleAdjustment;
         mainCamera = Camera.main;
     }
@@ -26,8 +25,6 @@ public class Slider : MonoBehaviour
         int newRange = 6;
         float value = (((sliderScript.SliderValue - 0) * newRange) / oldRange) + -3.0f;
         gazeSocket.gazeVectorAngleAdjustment = value;
-        System.Diagnostics.Debug.WriteLine(value);
-        Debug.Log(sliderScript.SliderValue);
     }
 
     public void ToggleSlider()
@@ -35,7 +32,6 @@ public class Slider : MonoBehaviour
         slider.SetActive(!slider.activeSelf);
         if (slider.activeSelf)
         {
-            System.Diagnostics.Debug.WriteLine("SLIDER ACTIVATED");
             slider.transform.position = mainCamera.transform.position + mainCamera.transform.forward * 0.75f;
             var n = mainCamera.transform.position - slider.transform.position;
             slider.transform.LookAt(mainCamera.transform);

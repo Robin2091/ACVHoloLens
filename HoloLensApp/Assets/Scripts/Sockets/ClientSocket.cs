@@ -34,6 +34,8 @@ public class ClientSocket
 	{
 		CancellationTokenSource _cts = new CancellationTokenSource();
 		_cts.CancelAfter(5000);
+		System.Diagnostics.Debug.WriteLine("CONNECTING TO SERVER");
+		System.Diagnostics.Debug.WriteLine(ipAddress);
 		Windows.Networking.HostName hostName = new Windows.Networking.HostName(ipAddress);
 		try
         {
@@ -44,7 +46,7 @@ public class ClientSocket
 			throw new CannotConnectToServerException(IpAddress, port);
         }
 		System.Diagnostics.Debug.WriteLine("CLIENT CONNECTED");
-       outputStream = socket.OutputStream.AsStreamForWrite();
+        outputStream = socket.OutputStream.AsStreamForWrite();
 
 	}
 
@@ -52,8 +54,21 @@ public class ClientSocket
 	{
 		try
 		{
-			outputStream.WriteAsync(data, 0, data.Length);
-			outputStream.FlushAsync();
+			outputStream.Write(data, 0, data.Length);
+			outputStream.Flush();
+		} 
+		catch (Exception e)
+		{
+			System.Diagnostics.Debug.WriteLine(e.Message);
+		}
+	}
+
+	public async Task SendDataAsync(byte[] data)
+	{
+		try
+		{
+			await outputStream.WriteAsync(data, 0, data.Length);
+			await outputStream.FlushAsync();
 		} 
 		catch (Exception e)
 		{
@@ -65,6 +80,14 @@ public class ClientSocket
 	{
         inputStream.Dispose();
         socket.Dispose();
+	}
+
+	public StreamSocket Socket
+	{
+		get
+		{
+			return socket;
+		}
 	}
 
 	public int BufferSize
