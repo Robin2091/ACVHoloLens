@@ -1,6 +1,6 @@
 # ACVHoloLens
 
-An Active Computer Vision Augmented Reality Platform. 
+**An Active Computer Vision Augmented Reality Platform**
 
 The goal of this project is to develop a platform that will allow for the deployment and collection of weakly annotated data in an augmented reality setting. This is a tool for obtaining video, audio, and eye-gaze data from a user wearing the Microsoft HoloLens 2. 
 
@@ -10,6 +10,13 @@ The project is split up into two main parts:
 * Server side app developed in Python which can be executed on any machine.
  
 Data is collected on the HoloLens 2 and then streamed to the server using TCP/IP sockets. 
+
+<p align="center">
+    <img src="./pictures/ezgif-frame-017.jpg" width="300">
+    <img src="./pictures/ezgif-frame-016.jpg" width="300">
+    <img src="./pictures/ezgif-frame-053.jpg" width="300">
+</p>
+
 
 ## Requirements
 
@@ -42,9 +49,17 @@ On the server side, cd into the project directory and 'pip install -r requiremen
 ## Usage
 
 Firstly, cd into the server side project directory if you have not already. Create a new folder where the data collected from the HoloLens will be stored. 
-Run the following command 'python Server.py --data_folder {YOUR_FOLDER}'. You will see that the server sockets are listening on some IP address. 
+Run the following command: 
+
+```
+python server.py --base_data_folder {YOUR_FOLDER}
+```
+
+You will see that the server sockets are listening on some IP address.
 
 If both the machine the server is running on and the HoloLens are connected to Wifi (and the user wont be going into areas without Wifi signal) then no USB-C connection is required between the HoloLens and the machine. Otherwise, a portable machine would have to be used e.g. Raspberry Pi or a laptop which would be connected to the HoloLens via USB-C. 
+
+Make sure that the HoloLens is calibrated to your eyes. If not, go to the HoloLens privacy settings and run the eye calibration routine.
 
 Now, go onto the HoloLens and open the ACVHololensUnity app. You should see a welcome screen with a start button. Once you press the start button, a dialog box will appear asking you to input the IP Address of the server. If the default IP address is different than the one assigned to your server then select yes to change it. Note that the app will not allow you to continue until you have entered a valid IP address. After an IP address has been entered, a countdown will begin before you can start collecting data in your environment. You should see a message appearing that the client sockets have connected to the server sockets and you can being collecting data. 
 
@@ -55,23 +70,51 @@ Once data collection is finished, you can exit the app.
 Now on the server side, you will notice a new folder has been created inside your data collection folder. Its named to the date and time you started the server for a particular data collection run. Inside this folder, you will find the following folders/files:
 
 * "frames" folder containing all of the video frames collected.
-* "audio_data.pkl" the serialized audio data.
-* "audio_start_timestamp.txt" contains the timestamp when the HoloLens microphone started recording audio.
-* "frame_timestamps.csv" contains the name of a video frame and tge corresponding timestamp of when it was captured.
-* "gaze_data.csv" contains the eye gaze data (in (x,y) pixel coordinates) and the corresponding timestamps when a certain eye gaze point was collected"
+* "audio_data" folder containing the audio files
+    * numbered .wav files (new wav file is created every time pause is pressed in the HoloLens app)
+    * one text file contains a list of timestamps when the recording started
+    * one text file contains the names of the .wav files that correspond to the timestamps
+* "frame_timestamps.csv" contains the name of a video frame and the corresponding timestamp of when it was captured.
+* "gaze_data.csv" contains the eye gaze data (in (x,y) pixel coordinates) and the corresponding timestamps when a certain eye gaze point was collected
 
-You can run the following command: 'python Process_And_Visualize.py --data_folder {path_to_run_folder}' to visualize the data collected for the run. 
+Note: delete the last audio .wav file (it is an empty file that's created when the app is exited)
+
+You can optionally run the following command to visualize the data collected for the run. Just note that this will take some time if your run was long. Also, make sure there enough storage space since a new copy of every captured frame overlayed with eye-gaze points will be created.
+
+```
+python process_and_visualize.py --data_folder {path_to_run_folder} 
+```
 
 This command will: 
-* generate the wav audio files from the serialized data
-* append the wav audio files to create one large audio file
+* create an output folder
 * sync and place the eye gaze data onto the video frames (these new frames will be in a newly created "gaze_frames" folder)
-* create a variable frame rate video from the frames
-* sync the audio and video and generate an mkv file
+* create variable frame rate videos from the frames (multiple videos if the recording is paused)
+* concatenate the videos
+* sync the audio and video and video files and concatenate them to create a single video file in the output folder
+
+<p align="center">
+    <img src="./pictures/1282.png" width="500">
+    <img src="./pictures/4930.png" width="500">
+    <img src="./pictures/4990.png" width="500">
+    <img src="./pictures/5089.png" width="500">
+</p>
+
+Now run the following command:
+
+```
+python text_generator.py --data_folder {path_to_run_folder} 
+```
+This will create a json file that contains all of the text that was generated from the audio files.
 
 Now you can create a new text file named 'categories.txt' where each row contains the name of an object you annotated during the data collection run. You should also create a json file with the list of categories in the COCO dataset format named 'categories.json'. 
 
-Run the following command: 'python GenerateDataset.py --data_folder {path_to_run_folder}' to create a weakly annotated dataset in COCO format from the data. The Vosk speech to text API is used to parse through the audio data to look for the categories listed in the text file. For each detected instance of a cetgory, a video frame that includes the category object and an eye gaze point that is located on the object are selected. A 'dataset.json' file is created that contains all of the annotations.
+Run 
+
+```
+python generate_dataset.py --data_folder {path_to_run_folder} 
+```
+
+to create a json file that contains a list of all detected instances of categories of interest with images and corresponding gaze points.
 
 
 ## Additional Resources
@@ -79,6 +122,3 @@ Run the following command: 'python GenerateDataset.py --data_folder {path_to_run
 Create a new Unity project and add the Microsoft MRTK and OpenXR Plugin to the project: https://docs.microsoft.com/en-us/learn/modules/mixed-reality-toolkit-project-unity/1-introduction
 
 Enable eye-tracking in project (if you are creating a new Unity project from scratch): https://docs.microsoft.com/en-us/windows/mixed-reality/mrtk-unity/mrtk2/features/input/eye-tracking/eye-tracking-basic-setup?view=mrtkunity-2022-05. Make sure to check "Enable Eye Gaze" in the Pointers section of Input settings. 
-
-
-
