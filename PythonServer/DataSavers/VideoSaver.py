@@ -24,12 +24,14 @@ class VideoSaver:
         self.is_running = False
         self.lock.release()
 
+
     def save_video(self):
         filename = 0
-        csv_file = open(str(self.folder_path.parent / "frame_timestamps.csv"), 'w', newline='')
+        csv_file = open(str(self.folder_path.parent / "frame_timestamps.csv"), 'a', newline='')
         csv_writer = csv.writer(csv_file)
         header = ["Filename", "Timestamp"]
         header_written = False
+        num_rows_written = 0
         while True:
             try:
                 image, time_stamp = self.video_queue.get(block=True, timeout=1)
@@ -40,6 +42,10 @@ class VideoSaver:
                 csv_writer.writerow([f"{filename}.png", time_stamp])
                 cv2.imwrite(str(file_path), image)
                 filename += 1
+                if num_rows_written % 30 == 0:
+                    csv_file.flush()
+                    os.fsync(csv_file)
+                num_rows_written += 1
             except queue.Empty:
                 if not self.is_running:
                     csv_file.close()

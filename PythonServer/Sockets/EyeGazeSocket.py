@@ -1,4 +1,3 @@
-import socket
 from Sockets.ServerSocket import ServerSocket
 
 
@@ -25,12 +24,9 @@ class EyeGazeSocket(ServerSocket):
                 # Receive and decode the timestamp and gaze data bytes
                 timestamp_gaze_bytes = client_socket.recv(data_length)
                 if timestamp_gaze_bytes == b'':
-                    print("BREAK 1")
                     self.gaze_data_saver.stop()
                     break
-            except (ValueError, ConnectionResetError, socket.timeout) as e:
-                print("BREAK 2")
-                print(e)
+            except (ValueError, ConnectionResetError):
                 self.gaze_data_saver.stop()
                 break
             time_stamp = timestamp_gaze_bytes.decode('utf-8')[0:25]
@@ -39,7 +35,6 @@ class EyeGazeSocket(ServerSocket):
                 gaze_data = timestamp_gaze_bytes.decode('utf-8')[29:]
             else:
                 gaze_data = timestamp_gaze_bytes.decode('utf-8')[25:]
-                print(gaze_data)
             # send the gaze and timestamp to the saver
             try:
                 eye_coord = [int(gaze_data[0:4]), int(gaze_data[4:8])]
@@ -52,6 +47,5 @@ class EyeGazeSocket(ServerSocket):
                         self.gaze_data_saver.send_to_queue_cal_mode(time_stamp, angle, eye_coord)
                     else:
                         self.gaze_data_saver.send_to_queue(time_stamp, eye_coord)
-        print("EYE GAZE LOOP DONE")
         self.close_and_shutdown(client_socket)
 

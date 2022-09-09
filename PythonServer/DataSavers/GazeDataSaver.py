@@ -1,3 +1,4 @@
+import os
 import threading
 import queue
 import csv
@@ -27,8 +28,9 @@ class GazeDataSaver:
             header = ['Timestamp', 'Angle', 'GazeX', 'GazeY']
         else:
             header = ['Timestamp', 'GazeX', 'GazeY']
-        csv_file = open(self.file_path, 'w', newline='')
+        csv_file = open(self.file_path, 'a', newline='')
         writer = csv.writer(csv_file)
+        num_rows_written = 0
         while self.is_running:
             try:
                 if self.is_calibration:
@@ -42,6 +44,10 @@ class GazeDataSaver:
                     writer.writerow([time_stamp, angle, gaze[0], gaze[1]])
                 else:
                     writer.writerow([time_stamp, gaze[0], gaze[1]])
+                if num_rows_written % 100 == 0:
+                    csv_file.flush()
+                    os.fsync(csv_file)
+                num_rows_written += 1
             except queue.Empty:
                 if not self.is_running:
                     csv_file.close()

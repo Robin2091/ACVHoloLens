@@ -1,5 +1,5 @@
-import pickle
-import socket
+import time
+
 import cv2
 import numpy as np
 from Sockets.ServerSocket import ServerSocket
@@ -24,6 +24,7 @@ class VideoSocket(ServerSocket):
     def receive_video(self, client_socket, show=False):
         date_time_data_length = 25  # Number of bytes used to represent the timestamp when the frame was captured
         i = 0
+        t = time.time()
         while True:
             full_image_bytes = b''
             # Try receiving the timestamp and the frame byte length packets.
@@ -32,9 +33,8 @@ class VideoSocket(ServerSocket):
                 time_stamp_packet = client_socket.recv(date_time_data_length)
                 image_size_packet = client_socket.recv(self.header_size)
                 image_bytes_length = int(image_size_packet.decode('utf-8'))
-            except (ValueError, ConnectionResetError, socket.timeout) as e:
-                print("BREAK 6")
-                print(e)
+            except (ValueError, ConnectionResetError):
+                print("error")
                 self.video_saver.stop()
                 break
             num_image_bytes_received = 0
@@ -48,8 +48,8 @@ class VideoSocket(ServerSocket):
                         num_image_bytes_received += len(last_packet)
                         if num_image_bytes_received >= image_bytes_length:
                             break
-                    except (ValueError, ConnectionResetError, socket.timeout):
-                        print("BREAK 7")
+                    except (ValueError, ConnectionResetError):
+                        print("error")
                         self.video_saver.stop()
                         break
                 # Otherwise receive the number of bytes specified by the buffer size
@@ -58,8 +58,10 @@ class VideoSocket(ServerSocket):
                         packet = client_socket.recv(self.buffer_size)
                         full_image_bytes += packet
                         num_image_bytes_received += len(packet)
-                    except (ValueError, ConnectionResetError, socket.timeout):
+                    except (ValueError, ConnectionResetError):
+                        print("error")
                         break
+            i += 1
             #full_image_bytes = pickle.loads(full_image_bytes)
             # Decode and send the timestamp and image to the video saver queue for saving
             time_stamp = time_stamp_packet.decode('utf-8')
@@ -75,5 +77,4 @@ class VideoSocket(ServerSocket):
                     cv2.waitKey(1)
         if show:
             cv2.destroyAllWindows()
-        print("VIDEO SOCKET DONE")
         self.close_and_shutdown(client_socket)

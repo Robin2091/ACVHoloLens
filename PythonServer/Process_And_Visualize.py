@@ -1,25 +1,24 @@
 import os
+import argparse
 from pathlib import Path
-from DataTools import DataTools
-#from DataToolsCalibration import DataTools
+from data_utils.DataTools import DataTools
 
-def main():
-    folder = "./Presentation/09-01-2022 11_13_08"
-    frames_with_gaze_data_folder = Path(folder) / "gaze_frames"
+
+def get_args_parser():
+    arg_parser = argparse.ArgumentParser(description="Active Computer Vision HoloLens 2", add_help=False)
+    arg_parser.add_argument('--data_folder', type=str, help="Path to the folder that will store data "
+                                                                 "for each run")
+    return arg_parser
+
+
+def main(args):
+    frames_with_gaze_data_folder = Path(args.data_folder) / "gaze_frames"
     os.makedirs(frames_with_gaze_data_folder)
-
-    tools = DataTools(folder)
-    # gaze_data = tools.load_gaze_data()
-    # tools.find_best_angle([1087,481], gaze_data)
-    tools.save_audio_to_wave(100)
-    tools.generate_audio_file()
-    gaze_data = tools.load_gaze_data()
-    frame_timestamps = tools.load_frame_timestamps()
-    tools.generate_images_with_gaze(frame_timestamps, gaze_data, "gaze_frames")
-    tools.generate_concat_file(frame_timestamps, "gaze_frames")
-    tools.generate_video_file("gaze_frames")
-    tools.combine_video_and_audio(frame_timestamps, "gaze_frames", None)
+    tools = DataTools(args.data_folder)
+    tools.create_visualization("gaze_frames")
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser('HololensACV', parents=[get_args_parser()])
+    args = parser.parse_args()
+    main(args)
